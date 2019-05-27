@@ -101,3 +101,19 @@ exclude(module: 'javassist')
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'2.0.3.RELEASE'
     testCompile group: 'org.springframework.kafka', name: 'spring-kafka-test', version:'2.0.3.RELEASE'
 }
+
+publishing {
+	repositories {
+    	maven {
+        	credentials {
+            	username = nexusUsername
+                password = nexusPassword
+            }
+            url = "http://nexus.rez1.com/repository/r1-lib-${project.version.endsWith('-SNAPSHOT') ? 'snapshots' : 'releases'}/"
+        }
+    }
+    publications {
+        springBootJar(MavenPublication) {
+            artifact bootJar
+        }
+    }
