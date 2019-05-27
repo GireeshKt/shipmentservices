@@ -1,0 +1,89 @@
+#application properties
+
+
+
+
+# HTTP (Tomcat) port
+server:
+  port: 8502
+  ssl:
+    key-store-type: PKCS12
+    key-store: STAR_ias.p12
+    key-store-password: password
+    key-alias: 1
+    
+#kafka server GCP and topic name    
+kafka:
+  bootstrap-servers: 10.138.0.4:9092
+  topic:
+    shipmentException: VISIBILITY_SHIPMENTEXCEPTION_LOCAL
+    shipmentEvents: VISIBILITY_SHIPMENTEVENT_LOCAL
+    shipmentOceanEvents: VISIBILITY_OCEANSHIPMENTEVENT_LOCAL
+    shipmentV2: VISIBILITY_SHIPMENT_LOCAL
+    shipmentV1: VISIBILITY_WORKORDER_LOCAL
+  isException: false
+   
+#logging
+
+logging:
+   config: classpath:log4j2-local.yaml
+   level: 
+     root: INFO
+     org.springframework.data: INFO
+     org.springframework.security: INFO
+
+#cxf
+cxf:
+  path: /
+  servlet.init: 
+    service-list-path: /info
+  jaxrs: 
+    component-scan: true
+    classes-scan-packages: org.apache.cxf.jaxrs.swagger,org.apache.cxf.metrics
+    
+ 
+spring:
+  datasource:
+   bmv:
+      url: jdbc:oracle:thin:@10.235.69.10:1522/iasdevqa
+      username: dmlocal
+      password: dublin09
+      driverClass:  oracle.jdbc.driver.OracleDriver
+# dbcp2 settings 
+      dbcp2:
+        initial-size: 5
+        max-total: 25
+        pool-prepared-statements: true
+           
+   dm:
+      url: jdbc:oracle:thin:@10.235.69.10:1522/iasdevqa
+      username: dmlocal
+      password: dublin09
+      driverClass:  oracle.jdbc.driver.OracleDriver
+
+  jpa:
+    properties:
+      hibernate:
+        show-sql:true
+        use-sql-comments:true
+        format-sql:true
+client:
+  hub:
+    address: http://10.235.71.22:9301/Hub6/hub-services/DispatchManagerFacadeService
+    
+  le:
+    address: https://qa-api.iasdispatchmanager.com:8503/v1/railbilling
+    railBillingUpdateAddress: https://10.235.71.8:8503/v1/railbilling/updateStatus/
+  blockchain:
+    baseUrl: https://dev-blockchain.blumeglobal.com:7777      
+  wo:
+    workOrderURL: https://test.iasdispatchmanager.com/dispatchmanager
+    authenticationapiKey: QVAxX1BBU1NXMFJEXzFOVDNHUkFUMTBO
+  locationMaster:
+    locationMasterFindOrCreate: http://devintg-api.iasdispatchmanager.com:8600/api/v1/locations/findcreate
+    locationMasterFindAddress: http://devintg-api.iasdispatchmanager.com:8600/api/v1/locations/findaddress
+    locationMasterFindById: http://devintg-api.iasdispatchmanager.com:8600/api/v1/locations/{uuid}
+    locationMasterFindByUnlocode: http://10.138.0.62:32600/api/v1/locations/unlocode/{unlocode}
+    
+  
+  
