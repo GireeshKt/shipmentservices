@@ -1,0 +1,86 @@
+#application properties
+
+
+
+
+# HTTP (Tomcat) port
+server:
+  port: 8502
+  ssl:
+    key-store-type: PKCS12
+    key-store: STAR_ias.p12
+    key-store-password: password
+    key-alias: 1
+
+#kafka server GCP and topic name    
+kafka:
+  bootstrap-servers: 10.138.0.2:9092,10.138.0.3:9092,10.138.0.4:9092
+  topic:
+    shipmentException: VISIBILITY_SHIPMENTEXCEPTION_SI
+    shipmentEvents: VISIBILITY_SHIPMENTEVENT_SI
+    shipmentOceanEvents: VISIBILITY_OCEANSHIPMENTEVENT_SI
+    shipmentV2: VISIBILITY_SHIPMENT_SI
+    shipmentV1: VISIBILITY_WORKORDER_SI
+    tenderShipment: VISIBILITY_TENDERSHIPMENT_SI
+    genericShipment: VISIBILITY_SHIPMENT_SI
+  isException: false
+   
+#logging
+
+logging:
+   config: classpath:log4j2-si.yaml
+   level: 
+     root: ERROR
+     org.springframework.data: ERROR
+     org.springframework.security: ERROR
+
+#cxf
+cxf:
+  path: /
+  servlet.init: 
+    service-list-path: /info
+  jaxrs: 
+    component-scan: true
+    classes-scan-packages: org.apache.cxf.jaxrs.swagger,org.apache.cxf.metrics
+    
+ 
+spring:
+  datasource:
+    bmv:
+      url: jdbc:mysql://localhost:3306/iasdevqa
+      username: root
+      password: K33p1tal1v3
+      driverClass:  org.hibernate.dialect.MySQLDialect
+# dbcp2 settings 
+      dbcp2:
+        initial-size: 5
+        max-total: 25
+        pool-prepared-statements: true
+    dm:
+      url: jdbc:oracle:thin:@localhost:1522/iasdevqa
+      username: dmsi
+      password: dublin09
+      driverClass:  oracle.jdbc.driver.OracleDriver
+  jpa:
+    properties:
+      hibernate:
+        show-sql:true
+        use-sql-comments:true
+        format-sql:true
+
+client:
+  hub:
+    address: http://si-hub.interasset.com/Hub6/hub-services/DispatchManagerFacadeService
+  le:
+    address: https://si-api.iasdispatchmanager.com:8503/v1/railbilling/
+    railBillingUpdateAddress: https://si-api.iasdispatchmanager.com:8503/v1/railbilling/updateStatus/
+  blockchain:
+    baseUrl: https://dev-blockchain.blumeglobal.com:7777      
+  wo:
+    workOrderURL: https://si.iasdispatchmanager.com/dispatchmanager
+    authenticationapiKey: clP8hFuKWZBteBGY1rZRBS1y86qTezY6
+  locationMaster:
+    locationMasterFindOrCreate: http://10.138.15.237:32600/api/v1/locations/findcreate
+    locationMasterFindAddress: http://10.138.15.237:32600/api/v1/locations/findaddress
+    locationMasterFindById: http://10.138.15.237:32600/api/v1/locations/{uuid}
+    locationMasterFindByUnlocode: http://10.138.15.237:32600/api/v1/locations/unlocode/{unlocode}

@@ -1,0 +1,91 @@
+#application properties
+
+
+
+
+# HTTP (Tomcat) port
+server:
+  port: 8502
+  ssl:
+    key-store-type: PKCS12
+    key-store: STAR_ias.p12
+    key-store-password: password    
+    key-alias: 1
+  
+#kafka server GCP and topic name    
+kafka:
+  bootstrap-servers: 10.138.0.2:9092,10.138.0.3:9092,10.138.0.4:9092
+  topic:
+    shipmentException: VISIBILITY_SHIPMENTEXCEPTION_TEST
+    shipmentEvents: VISIBILITY_SHIPMENTEVENT_TEST
+    shipmentOceanEvents: VISIBILITY_OCEANSHIPMENTEVENT_TEST
+    shipmentV2: VISIBILITY_SHIPMENT_TEST
+    shipmentV1: VISIBILITY_WORKORDER_TEST
+    tenderShipment: VISIBILITY_TENDERSHIPMENT_TEST
+    genericShipment: VISIBILITY_SHIPMENT_TEST
+  isException: false
+
+#logging
+
+
+logging:
+   config: classpath:log4j2-testint.yaml
+   level: 
+     root: INFO
+     org.springframework.data: INFO
+     org.springframework.security: INFO
+     com.blumeglobal: DEBUG
+
+#cxf
+cxf:
+  path: /
+  servlet.init: 
+    service-list-path: /info
+  jaxrs: 
+    component-scan: true
+    classes-scan-packages: org.apache.cxf.jaxrs.swagger,org.apache.cxf.metrics
+    
+ 
+spring:
+  datasource:
+    bmv:
+      url: jdbc:oracle:thin:@10.235.69.10:1522/iasdevqa
+      username: bmvtest
+      password: dublin09test
+      driverClass:  oracle.jdbc.driver.OracleDriver
+# dbcp2 settings 
+      dbcp2:
+        initial-size: 5
+        max-total: 25
+        pool-prepared-statements: true
+    dm:
+      url: jdbc:oracle:thin:@10.235.69.10:1522/iasdevqa
+      username: DEVLEDEMO
+      password: dublin09le
+      driverClass:  oracle.jdbc.driver.OracleDriver
+
+  jpa:
+    properties:
+      hibernate:
+        show-sql:true
+        use-sql-comments:true
+        format-sql:true
+        
+client:
+  hub:
+    address: http://demo-hub.interasset.com/Hub6/hub-services/DispatchManagerFacadeService
+  le:
+    address: https://demo-api.iasdispatchmanager.com:8503/v1/railbilling/
+    railBillingUpdateAddress: https://demo-api.iasdispatchmanager.com:8503/v1/railbilling/updateStatus/
+  blockchain:
+    baseUrl: https://dev-blockchain.blumeglobal.com:7777     
+  wo:
+    workOrderURL: https://demo.iasdispatchmanager.com/dispatchmanager
+    authenticationapiKey: clP8hFuKWZBteBGY1rZRBS1y86qTezY6
+  locationMaster:
+    locationMasterFindOrCreate: http://10.138.15.251:32600/api/v1/locations/findcreate
+    locationMasterFindAddress: http://10.138.15.251:32600/api/v1/locations/findaddress
+    locationMasterFindById: http://10.138.15.251:32600/api/v1/locations/{uuid}
+    locationMasterFindByUnlocode: http://10.138.15.251:32600/api/v1/locations/unlocode/{unlocode}
+    
+    

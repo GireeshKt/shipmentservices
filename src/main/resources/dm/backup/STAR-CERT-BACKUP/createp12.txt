@@ -1,0 +1,1 @@
+openssl pkcs12 -export -in STAR_iasdispatchmanager_com.crt -inkey web-dm.key -out STAR_ias.p12
