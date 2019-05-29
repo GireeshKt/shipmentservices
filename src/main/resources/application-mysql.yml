@@ -47,7 +47,7 @@ cxf:
 spring:
   datasource:
     bmv:
-      url: jdbc:mysql://localhost:3306/iasdevqa
+      url: jdbc:mysql://10.115.32.7:3306/iasdevqa
       username: root
       password: K33p1tal1v3
       driverClass:  org.hibernate.dialect.MySQLDialect
