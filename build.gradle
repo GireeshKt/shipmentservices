@@ -117,3 +117,4 @@ publishing {
             artifact bootJar
         }
     }
+    }
