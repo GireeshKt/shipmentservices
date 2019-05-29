@@ -41,6 +41,8 @@ pipeline {
                 milestone label: 'build', ordinal: 1
                 
                 script {
+			
+		    def shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
                 	
                     def jobName = "${JOB_NAME}"
                     
@@ -52,7 +54,7 @@ pipeline {
                     		    		
 			    	docker.withRegistry('https://us.gcr.io') {
 			    	    
-                		def customImage = docker.build("${GCP_CONTAINER_REGISTRY}/${GITHUB_REPO}:${jenkinsJobName}-${BUILD_NUMBER}")
+                		def customImage = docker.build("${GCP_CONTAINER_REGISTRY}/${GITHUB_REPO}:${jenkinsJobName}-${shortCommit}")
                 
         			    customImage.push()
         			}
