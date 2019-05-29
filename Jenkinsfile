@@ -52,7 +52,7 @@ pipeline {
                     		    		
 			    	docker.withRegistry('https://us.gcr.io') {
 			    	    
-                		def customImage = docker.build("${GCP_CONTAINER_REGISTRY}/${GITHUB_REPO}:${jenkinsJobName}")
+                		def customImage = docker.build("${GCP_CONTAINER_REGISTRY}/${GITHUB_REPO}:${jenkinsJobName}-${BUILD_NUMBER}")
                 
         			    customImage.push()
         			}
