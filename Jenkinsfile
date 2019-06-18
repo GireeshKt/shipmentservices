@@ -85,12 +85,19 @@ pipeline {
                 milestone label: 'build', ordinal: 2
                 
                 script {
+                    def shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+                	
+                    def jobName = "${JOB_NAME}"
                     
+                    jobNameParts = jobName.split('/')
+                    
+		    def jenkinsJobName = jobNameParts[jobNameParts.length - 1].toLowerCase().replaceAll(" ","-").replaceAll("_","-")
+
                     DOCKER_LOGIN = sh returnStdout: true, script: "docker login -u _json_key -p \"\${GCP_CONTAINER_SECRET_PROD}\" https://us.gcr.io"
                     		    		
 			    	docker.withRegistry('https://us.gcr.io') {
 			    	    
-                		def customImage = docker.build("${GCP_CONTAINER_REGISTRY_PROD}/${GITHUB_REPO}:${VERSION}")
+                		def customImage = docker.build("${GCP_CONTAINER_REGISTRY_PROD}/${GITHUB_REPO}:${jenkinsJobName}-${shortCommit}")
                 	   
         			    customImage.push()
         			}
